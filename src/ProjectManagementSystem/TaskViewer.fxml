@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="ProjectManagementSystem.TaskViewerController">
+   <center>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="567.0" prefWidth="659.0">
+         <children>
+            <Line endX="134.0" layoutX="525.0" layoutY="107.0" startX="-525.0" AnchorPane.leftAnchor="-0.5" AnchorPane.rightAnchor="-0.5" />
+            <ImageView fitHeight="42.0" fitWidth="55.0" layoutX="14.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons8_user_32px_2.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="14.0" layoutY="65.0" prefHeight="42.0" prefWidth="312.0" text="List of Tasks" textFill="#2131bf">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="26.0" fitWidth="52.0" layoutX="148.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../Desktop/tasks_40px.png" />
+               </image>
+            </ImageView>
+            <GridPane fx:id="TaskPane" gridLinesVisible="true" layoutX="29.0" layoutY="139.0" prefHeight="376.0" prefWidth="590.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="306.0" minWidth="10.0" prefWidth="210.0" />
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="439.0" minWidth="10.0" prefWidth="212.0" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="439.0" minWidth="10.0" prefWidth="172.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="339.0" minHeight="10.0" prefHeight="110.0" vgrow="ALWAYS" />
+                <RowConstraints maxHeight="339.0" minHeight="10.0" prefHeight="110.0" vgrow="ALWAYS" />
+                <RowConstraints maxHeight="302.0" minHeight="10.0" prefHeight="121.0" vgrow="ALWAYS" />
+              </rowConstraints>
+               <children>
+                  <VBox fx:id="box1" onMouseClicked="#handleLabel" prefHeight="59.0" prefWidth="206.0">
+                     <GridPane.margin>
+                        <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                     </GridPane.margin>
+                     <children>
+                        <Label fx:id="name1" onMouseClicked="#handleLabel" onMousePressed="#Do" prefHeight="18.0" prefWidth="177.0" text=" Name :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="status1" onMouseClicked="#handleLabel" prefHeight="22.0" prefWidth="196.0" text=" Stauts :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="Deadline1" onMouseClicked="#handleLabel" prefHeight="22.0" prefWidth="210.0" text="Deadline:">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="59.0" prefWidth="206.0" GridPane.columnIndex="1">
+                     <children>
+                        <Label id="ahmed" fx:id="ahmed" prefHeight="18.0" prefWidth="188.0" text="Name :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label prefHeight="22.0" prefWidth="219.0" text=" Stauts :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label prefHeight="22.0" prefWidth="203.0" text="Deadline:">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                     </GridPane.margin>
+                  </VBox>
+                  <VBox prefHeight="114.0" prefWidth="189.0" GridPane.columnIndex="2">
+                     <children>
+                        <Label prefHeight="18.0" prefWidth="164.0" text="Name :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label prefHeight="22.0" prefWidth="161.0" text=" Stauts :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label prefHeight="22.0" prefWidth="146.0" text="Deadline:">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                     </GridPane.margin>
+                  </VBox>
+                  <VBox prefHeight="59.0" prefWidth="206.0" GridPane.rowIndex="1">
+                     <children>
+                        <Label prefHeight="18.0" prefWidth="177.0" text=" Name :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label prefHeight="22.0" prefWidth="206.0" text=" Stauts :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label prefHeight="22.0" prefWidth="210.0" text="Deadline:">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                     </GridPane.margin>
+                  </VBox>
+                  <VBox prefHeight="59.0" prefWidth="206.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <Label prefHeight="18.0" prefWidth="194.0" text="Name :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label prefHeight="22.0" prefWidth="188.0" text=" Stauts :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label prefHeight="22.0" prefWidth="265.0" text="Deadline:">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                     </GridPane.margin>
+                  </VBox>
+                  <VBox prefHeight="59.0" prefWidth="206.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <children>
+                        <Label prefHeight="18.0" prefWidth="179.0" text="Name :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label prefHeight="22.0" prefWidth="184.0" text=" Stauts :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label prefHeight="22.0" prefWidth="457.0" text="Deadline:">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="59.0" prefWidth="206.0" GridPane.rowIndex="2">
+                     <children>
+                        <Label prefHeight="18.0" prefWidth="286.0" text="Name :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label prefHeight="22.0" prefWidth="217.0" text=" Stauts :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label prefHeight="22.0" prefWidth="270.0" text="Deadline:">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                     </GridPane.margin>
+                  </VBox>
+                  <VBox prefHeight="59.0" prefWidth="206.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <Label prefHeight="18.0" prefWidth="230.0" text="Name :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label prefHeight="22.0" prefWidth="199.0" text=" Stauts :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label prefHeight="22.0" prefWidth="205.0" text="Deadline:">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                     </GridPane.margin>
+                  </VBox>
+                  <VBox prefHeight="59.0" prefWidth="206.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <children>
+                        <Label prefHeight="18.0" prefWidth="297.0" text="Name :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label prefHeight="22.0" prefWidth="135.0" text=" Stauts :">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                        <Label prefHeight="22.0" prefWidth="154.0" text="Deadline:">
+                           <VBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                     </GridPane.margin>
+                  </VBox>
+               </children>
+            </GridPane>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
