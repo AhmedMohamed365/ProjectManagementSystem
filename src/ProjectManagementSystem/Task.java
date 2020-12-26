@@ -1,57 +1,43 @@
 package ProjectManagementSystem;
 
 import java.util.Date;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.stage.Stage;
 
 public class Task extends Stage {
 
-
-private String name;
-
-
-//Needed to be changed to  Enum not String ! @Ahmed abu alfarh
+private String taskName;
+private int member_id;
+private String description;
+private Date deadline;
 private String status;
-
-private Date deadLine;
-private  String Description ;
-private String TeamLeader;
-public static int nOfTasks=0;
-    
- public Task(String name,Date date , String status , String TeamLeader ) {
-     
-     setMaxWidth(500);
-     setMaxHeight(500);
-     nOfTasks++;
-     
-     this.name=name;
-     
-       this.deadLine=date;
-       this.status = status;
-       this.TeamLeader = TeamLeader;
-     
+ public Task(String name, int member_id, String description, Date deadLine, String status ) {
+     this.taskName =name;
+     this.status=status;
+     this.deadline=deadLine;
+     this.description=description;
+     this.member_id=member_id;
     }
 
-    public String getName() {
-        return name;
+    public String getTaskName() {
+        return taskName;
     }
 
-    public Date getDeadLine() {
-        return deadLine;
-    }
  public String getStatus() {
         return status;
     }
-    
-   // private State Status; Define Enum Here check the tutorial :)
+
+    public int getMember_id() {
+        return member_id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    // private State Status; Define Enum Here check the tutorial :)
     
 //Make consturctors here
     
-    public void DisplayInfo()
-    
-    {
-        
-        
+    public void DisplayInfo() {
     }
 }
