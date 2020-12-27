@@ -3,9 +3,16 @@ package ProjectManagementSystem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.*;
+
+import java.io.*;
 import java.lang.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
+
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -51,8 +58,7 @@ public class TableScene extends VBox {
     protected final MenuItem menuItem15;
     protected final AnchorPane grid;
     protected final TableView<Task> tableView;
-    protected final TableColumn<Task, String> Task_Name_Column ;
-    protected final TableColumn<Task,String> Member_Id_Column,Task_Status_Column,Deadline_Column,Task_Description_Column;
+    protected final TableColumn<Task, String> Task_Name_Column,Member_Id_Column,Task_Status_Column,Deadline_Column,Task_Description_Column;
     protected final Button AddTaskButton,EditTaskButton,DeleteTaskButton,button2;
      Stage primaryWindow;
     public TableScene() {
@@ -95,6 +101,7 @@ public class TableScene extends VBox {
         EditTaskButton = new Button();
         DeleteTaskButton = new Button();
         button2 = new Button();
+        File DATA = new File("C:/Users/ahmed/OneDrive/Desktop/table.txt");
 
         setMinHeight(400.0);
         setMinWidth(640.0);
@@ -263,12 +270,6 @@ public class TableScene extends VBox {
         AddTaskButton.setOnAction(event -> {
             primaryWindow.setScene(createTask.scene);
         });
-        
-        
-//        createTask.AddButton.setOnAction(event->{
-//            
-//            primaryWindow.setScene(scene); 
-//        });
         createTask.CancelButton.setOnAction(event -> {
             primaryWindow.setScene(scene);
             createTask.TaskName.setText("");
@@ -279,6 +280,20 @@ public class TableScene extends VBox {
         });
         DeleteTaskButton .setOnAction(event -> {
             tableView.getItems().removeAll(tableView.getSelectionModel().getSelectedItems());
+            try {
+            File file = new File("C:/Users/ahmed/OneDrive/Desktop/file.txt");
+
+
+                if (!file.isFile()) {
+                    System.out.println("file was not created");
+                    return;
+                }
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(DATA) );
+                PrintWriter printWriter = new PrintWriter(new FileWriter(file));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
         tableView.setOnKeyPressed(event ->
                 {
@@ -292,22 +307,47 @@ public class TableScene extends VBox {
                     }
                 });
     }
-    public  ObservableList<Task> getTasks(Task [] givenTasks){
-        ObservableList<Task> Tasks = FXCollections.observableArrayList();
-        for(Task oneTask : givenTasks)
-        {
-             Tasks.add(oneTask);
-        }
-       
-        return Tasks;
-    }
+
     public void IntializeCoulmns()
     {
-        Task_Name_Column.setCellValueFactory(new PropertyValueFactory("taskName"));
-        Member_Id_Column.setCellValueFactory(new PropertyValueFactory("member_id"));
-        Task_Status_Column.setCellValueFactory(new PropertyValueFactory("status"));
-        Deadline_Column.setCellValueFactory(new PropertyValueFactory("deadLine"));
-        Task_Description_Column.setCellValueFactory(new PropertyValueFactory("description"));
+        Task_Name_Column.setCellValueFactory(data -> data.getValue().getTaskName());
+        Member_Id_Column.setCellValueFactory(data -> data.getValue().member_idProperty());
+        Task_Status_Column.setCellValueFactory(data -> data.getValue().statusProperty());
+        Deadline_Column.setCellValueFactory(data -> data.getValue().deadlineProperty());
+        Task_Description_Column.setCellValueFactory(data -> data.getValue().descriptionProperty());
+    }
+    public void  Readtable () throws IOException {
+//        Collection<Task> list = Files.read(new File("C:/Users/ahmed/OneDrive/Desktop/table.txt").toPath())
+//                .stream()
+//                .map(line -> {
+//
+
+        Scanner scanner = new Scanner(Paths.get("C:/Users/ahmed/OneDrive/Desktop/table.txt"), StandardCharsets.UTF_8.name());
+        int counter=0;
+
+        Task task[]  = new Task[100] ;
+        ObservableList<Task> list = FXCollections.observableArrayList();
+        IntializeCoulmns();
+        while(scanner.hasNext())
+        {
+            String content = scanner.useDelimiter("\\;").next();
+            String[] details = content.split(",");
+            task[counter] = new Task();
+            task[counter].setTaskName(details[0]);
+            task[counter].setMember_id(details[1]);
+            task[counter].setStatus(details[2]);
+            task[counter].setDeadline(details[3]);
+            task[counter].setDescription(details[4]);
+            list.add(task[counter]);
+            counter++;
+        }
+        tableView.setItems(list);
+        scanner.close();
+
+
+
+
+
 
     }
 

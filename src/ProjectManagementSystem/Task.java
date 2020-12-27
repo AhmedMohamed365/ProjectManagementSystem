@@ -2,16 +2,57 @@ package ProjectManagementSystem;
 
 import java.util.Date;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
 
 public class Task extends Stage {
 
-private String taskName;
-private int member_id;
-private String description;
-private Date deadline;
-private String status;
- public Task(String name, int member_id, String description, Date deadLine, String status ) {
+private StringProperty taskName = new SimpleStringProperty();
+    private StringProperty member_id= new SimpleStringProperty();
+private StringProperty description=new SimpleStringProperty();
+private StringProperty deadline=new SimpleStringProperty();
+
+    public void setMember_id(String member_id) {
+        this.member_id.set(member_id);
+    }
+
+    public void setDescription(String description) {
+        this.description.set(description);
+    }
+
+    public void setStatus(String status) {
+        this.status.set(status);
+    }
+
+    private StringProperty status=new SimpleStringProperty();
+
+    public StringProperty member_idProperty() {
+        return member_id;
+    }
+
+    public StringProperty descriptionProperty() {
+        return description;
+    }
+
+    public StringProperty deadlineProperty() {
+        return deadline;
+    }
+
+    public StringProperty statusProperty() {
+        return status;
+    }
+
+
+
+    public void setDeadline(String deadline) {
+        this.deadline.set(deadline);
+    }
+
+    public Task(){
+
+    }
+ public Task(StringProperty name, StringProperty member_id, StringProperty description, StringProperty deadLine, StringProperty status ) {
      this.taskName =name;
      this.status=status;
      this.deadline=deadLine;
@@ -19,25 +60,26 @@ private String status;
      this.member_id=member_id;
     }
 
-    public String getTaskName() {
+    public StringProperty getTaskName() {
         return taskName;
     }
 
- public String getStatus() {
-        return status;
+    public void setTaskName(StringProperty taskName) {
+        this.taskName = taskName;
+    }
+    public StringProperty taskNameProperty() {
+        return taskName;
     }
 
-    public int getMember_id() {
-        return member_id;
+    public void setTaskName(String taskName) {
+        this.taskName.set(taskName);
     }
 
-    public String getDescription() {
-        return description;
-    }
     // private State Status; Define Enum Here check the tutorial :)
     
 //Make consturctors here
     
     public void DisplayInfo() {
     }
+
 }

@@ -1,5 +1,8 @@
 package ProjectManagementSystem;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import com.sun.org.apache.xpath.internal.operations.Number;
 import javafx.scene.chart.*;
@@ -16,6 +19,7 @@ import javafx.scene.control.*;
 import java.lang.*;
 import static java.sql.Date.valueOf;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Date;
 import javafx.collections.ObservableList;
 
@@ -117,25 +121,24 @@ class CreatingTaskScene extends Pane
         AddButton.setFont(new Font("Elephant", 15.0));
         AddButton.setOnAction(event ->
         {
-          // I think there is better solution but this should work now
-            //so we will get all the tasks 
-            //then add the new task to it :
-          ObservableList<Task> updatedList =  tasksTable.getTasks(existedTasks);
-          
-          
-          
-            
-            
-            
-          updatedList.add(new Task(TaskName.getText(), 
-          
-                                   Integer.parseInt(MemberId.getText()),
-                                   "Done",
-                                   valueOf(Deadline.getValue()),
-                                   DescriptionTextArea.getText()        ));
-            tasksTable.tableView.setItems(updatedList );
-           primaryWindow.setScene(tasksTable.scene);
-           
+            try {
+                FileWriter myWriter = new FileWriter("C:/Users/ahmed/OneDrive/Desktop/table.txt",true);
+                myWriter.write(TaskName.getText());
+                myWriter.write(',');
+                myWriter.write(MemberId.getText());
+                myWriter.write(',');
+                myWriter.write("going on");
+                myWriter.write(',');
+                myWriter.write(String.valueOf(Deadline.getValue()));
+                myWriter.write(',');
+                myWriter.write(DescriptionTextArea.getText());
+                myWriter.write(";");
+                myWriter.flush();
+                myWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            primaryWindow.setScene(tasksTable.scene);
             TaskName.setText("");
             MemberId.setText("");
             Deadline.setValue(LocalDate.now());

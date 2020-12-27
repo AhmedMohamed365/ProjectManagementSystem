@@ -81,6 +81,7 @@ public  class TasksTable extends SplitPane {
         tableView.getColumns().add(TeamLeader);
 
         grid.getChildren().addAll(tableView);
+
         scene = new Scene(grid,640,400);
     }
 }
