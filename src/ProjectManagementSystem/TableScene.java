@@ -280,20 +280,24 @@ public class TableScene extends VBox {
         });
         DeleteTaskButton .setOnAction(event -> {
             tableView.getItems().removeAll(tableView.getSelectionModel().getSelectedItems());
-            try {
-            File file = new File("C:/Users/ahmed/OneDrive/Desktop/file.txt");
-
-
-                if (!file.isFile()) {
-                    System.out.println("file was not created");
-                    return;
-                }
-                BufferedReader bufferedReader = new BufferedReader(new FileReader(DATA) );
-                PrintWriter printWriter = new PrintWriter(new FileWriter(file));
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                       //Convert ObservableList to the task object again to save changes.     
+                       //            try {
+                    Task[] list =   tableView.getItems().toArray(new Task[0]) ;  
+                    //this to ensure  that first time we remove all the content from the file then we append to it 
+                    //we don't want to remove the content every time ! 
+                     boolean append = false;                                                                                            
+                     for(Task oneTask : list)                                                                                                                    
+                     {                                                                     
+                         UpdateAferDeletion(oneTask, append);                                                                                                           
+                         append = true;                                                                                                             
+                                                                                                                   
+                     }                                                                                              
+                                                                                                                 
+                                                                                                                   
+                                                                                                                   
+                                                                                                                   
+                                                                                                                   
+                                                                                                                   
         });
         tableView.setOnKeyPressed(event ->
                 {
@@ -322,7 +326,7 @@ public class TableScene extends VBox {
 //                .map(line -> {
 //
 
-        Scanner scanner = new Scanner(Paths.get("C:/Users/ahmed/OneDrive/Desktop/table.txt"), StandardCharsets.UTF_8.name());
+        Scanner scanner = new Scanner(Paths.get("C:/Users/Ahmed/Desktop/table.txt"), StandardCharsets.UTF_8.name());
         int counter=0;
 
         Task task[]  = new Task[100] ;
@@ -351,4 +355,24 @@ public class TableScene extends VBox {
 
     }
 
+    public void UpdateAferDeletion(Task task,boolean append)
+    {
+        try {
+                FileWriter myWriter = new FileWriter("C:/Users/Ahmed/Desktop/table.txt",append);
+                myWriter.write(task.taskNameProperty().get());
+                myWriter.write(',');
+                myWriter.write(task.member_idProperty().get());
+                myWriter.write(',');
+                myWriter.write("going on");
+                myWriter.write(',');
+                myWriter.write(String.valueOf(task.deadlineProperty().getValue()));
+                myWriter.write(',');
+                myWriter.write(task.descriptionProperty().get());
+                myWriter.write(";");
+                myWriter.flush();
+                myWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
 }

@@ -36,7 +36,7 @@ class CreatingTaskScene extends Pane
 {
     protected final AnchorPane grid = new AnchorPane();
     protected final Scene scene ;
-    protected final TextField MemberId = new TextField();;
+    protected final TextField MemberId = new TextField();
     protected final TextField TaskName = new TextField();
     protected final DatePicker Deadline = new DatePicker();
     protected final TextArea DescriptionTextArea= new TextArea();
@@ -122,7 +122,7 @@ class CreatingTaskScene extends Pane
         AddButton.setOnAction(event ->
         {
             try {
-                FileWriter myWriter = new FileWriter("C:/Users/ahmed/OneDrive/Desktop/table.txt",true);
+                FileWriter myWriter = new FileWriter("C:/Users/Ahmed/Desktop/table.txt",true);
                 myWriter.write(TaskName.getText());
                 myWriter.write(',');
                 myWriter.write(MemberId.getText());
@@ -142,7 +142,16 @@ class CreatingTaskScene extends Pane
             TaskName.setText("");
             MemberId.setText("");
             Deadline.setValue(LocalDate.now());
-            DescriptionTextArea.setText(""); 
+            DescriptionTextArea.setText("");
+            //This to update the table after pressing add button
+           try{
+                         tasksTable.Readtable();
+  
+           }
+           catch(IOException e)
+           {
+               e.printStackTrace();
+           }
         });
         AddButton.setOnKeyPressed(event ->
                 {

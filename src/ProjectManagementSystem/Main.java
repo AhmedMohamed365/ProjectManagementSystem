@@ -22,8 +22,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-
+        
         //giving Create Task page a refernce to the already Created tasks :
 
         TableScene mainPage=new TableScene();
@@ -31,15 +30,49 @@ public class Main extends Application {
         //we need the main window to transfere between create task scene and table view  scene
         //also  we give the create task the addresss to the scene of table view
         // somehow not good thing to do.
-
     CreatingTaskScene.primaryWindow = primaryStage;
 //CreateTask.tasksTable = mainPage;
-        primaryStage.setTitle("project");
-        primaryStage.setScene(mainPage.scene);
+        primaryStage.setTitle("ProjectManagmentSystem");
+      //  primaryStage.setScene(mainPage.scene);
 
     mainPage.primaryWindow = primaryStage;
+    
+        //load Login window first
+        FXMLLoader loginLoader = new FXMLLoader();
+         loginLoader.setLocation(getClass().getResource("LoginFXML.fxml"));
+        Parent root = loginLoader.load();
+   //get the controller for login window
+    LoginController loginController = loginLoader.getController();
+     Scene loginScene = new Scene(root);
+     
+     // give it the reference so we don't get errors :) 
+    loginController.mainWindow = primaryStage;
+    loginController.TasksScene = mainPage.scene;
+    
+      TeamLeader leader = new TeamLeader();
+      TeamMember member = new TeamMember();
+      
+      //Intialize signUp Scene to be ready
+    Account signUp = new Account(primaryStage);
+    signUp.leader = leader;
+    signUp.member = member;
+    
+    loginController.signUp = signUp;
+    
+    //defualt scene
+     primaryStage.setScene(loginScene);
+       
+        
+      
+        
 
+        
+        
+    
 
+        
+
+//Show the window
         primaryStage.show();
         primaryStage.setResizable(false);
 
