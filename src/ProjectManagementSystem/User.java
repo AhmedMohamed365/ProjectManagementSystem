@@ -1,6 +1,20 @@
 package ProjectManagementSystem;
 
 public abstract class User  {
+    private String name;
+    private String Password;
+    private String email;
+    private String mobileNumber;
+
+    public String getGender() {
+        return gender;
+    }
+
+    private String gender ;
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public String getName() {
         return name;
@@ -43,12 +57,16 @@ public abstract class User  {
     }
 
 
-    private String name;
 
-    private String Password;
-    private String email;
 
-  
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
     private Task Tasks;
 
     private int tasksCount;

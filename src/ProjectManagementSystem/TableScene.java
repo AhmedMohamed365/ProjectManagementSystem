@@ -2,29 +2,27 @@ package ProjectManagementSystem;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.*;
+
 
 import java.io.*;
-import java.lang.*;
+
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import javafx.scene.control.TableColumn;
+
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.control.TableColumn;
-import javafx.scene.paint.*;
-import javafx.scene.text.*;
+
+
 import javafx.stage.Stage;
 
 public class TableScene extends VBox {
@@ -59,8 +57,13 @@ public class TableScene extends VBox {
     protected final AnchorPane grid;
     protected final TableView<Task> tableView;
     protected final TableColumn<Task, String> Task_Name_Column,Member_Id_Column,Task_Status_Column,Deadline_Column,Task_Description_Column;
-    protected final Button AddTaskButton,EditTaskButton,DeleteTaskButton,button2;
+    protected final Button addBt,editBt,deleteBt,doneBt;
+    
+    //get reference for the main window of the application
      Stage primaryWindow;
+         // make an object to store old data when editing task and passing it to another class
+
+      Task oldTask  =  new Task();
     public TableScene() {
         CreatingTaskScene createTask = new CreatingTaskScene(this);
         menuBar = new MenuBar();
@@ -97,11 +100,10 @@ public class TableScene extends VBox {
         Task_Status_Column = new TableColumn();
         Deadline_Column = new TableColumn();
         Task_Description_Column = new TableColumn();
-        AddTaskButton = new Button();
-        EditTaskButton = new Button();
-        DeleteTaskButton = new Button();
-        button2 = new Button();
-        File DATA = new File("C:/Users/ahmed/OneDrive/Desktop/table.txt");
+        addBt = new Button();
+        editBt = new Button();
+        deleteBt = new Button();
+        doneBt = new Button();
 
         setMinHeight(400.0);
         setMinWidth(640.0);
@@ -214,36 +216,36 @@ public class TableScene extends VBox {
         Task_Description_Column.setText("Task description");
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        AddTaskButton.setLayoutX(20.0);
-        AddTaskButton.setLayoutY(336.0);
-        AddTaskButton.setMnemonicParsing(false);
-        AddTaskButton.setPrefHeight(31.0);
-        AddTaskButton.setPrefWidth(90.0);
-        AddTaskButton.setText("Add task");
-        AddTaskButton.setOnAction(event -> {
-            this.scene = createTask.scene;
-        });
+        addBt.setLayoutX(20.0);
+        addBt.setLayoutY(336.0);
+        addBt.setMnemonicParsing(false);
+        addBt.setPrefHeight(31.0);
+        addBt.setPrefWidth(90.0);
+        addBt.setText("Add task");
+//        addBt.setOnAction(event -> {
+//            this.scene = createTask.scene;
+//        });
 
-        EditTaskButton.setLayoutX(204.0);
-        EditTaskButton.setLayoutY(336.0);
-        EditTaskButton.setMnemonicParsing(false);
-        EditTaskButton.setPrefHeight(31.0);
-        EditTaskButton.setPrefWidth(90.0);
-        EditTaskButton.setText("Edit task");
+        editBt.setLayoutX(204.0);
+        editBt.setLayoutY(336.0);
+        editBt.setMnemonicParsing(false);
+        editBt.setPrefHeight(31.0);
+        editBt.setPrefWidth(90.0);
+        editBt.setText("Edit task");
 
-        DeleteTaskButton.setLayoutX(370.0);
-        DeleteTaskButton.setLayoutY(336.0);
-        DeleteTaskButton.setMnemonicParsing(false);
-        DeleteTaskButton.setPrefHeight(31.0);
-        DeleteTaskButton.setPrefWidth(90.0);
-        DeleteTaskButton.setText("Delete task");
+        deleteBt.setLayoutX(370.0);
+        deleteBt.setLayoutY(336.0);
+        deleteBt.setMnemonicParsing(false);
+        deleteBt.setPrefHeight(31.0);
+        deleteBt.setPrefWidth(90.0);
+        deleteBt.setText("Delete task");
 
-        button2.setLayoutX(530.0);
-        button2.setLayoutY(336.0);
-        button2.setMnemonicParsing(false);
-        button2.setPrefHeight(31.0);
-        button2.setPrefWidth(90.0);
-        button2.setText("DoneButton");
+        doneBt.setLayoutX(530.0);
+        doneBt.setLayoutY(336.0);
+        doneBt.setMnemonicParsing(false);
+        doneBt.setPrefHeight(31.0);
+        doneBt.setPrefWidth(90.0);
+        doneBt.setText("DoneButton");
 
         menu.getItems().addAll(menuItem,menuItem0,menu0,separatorMenuItem,menuItem1,menuItem2,menuItem3,menuItem4,separatorMenuItem0,menuItem6);
 
@@ -265,11 +267,13 @@ public class TableScene extends VBox {
 
         tableView.getColumns().addAll(Task_Name_Column,Member_Id_Column,Task_Status_Column,Deadline_Column,Task_Description_Column);
 
-        grid.getChildren().addAll(menuBar,tableView,AddTaskButton,EditTaskButton,DeleteTaskButton,button2);
+        grid.getChildren().addAll(menuBar,tableView,addBt,editBt,deleteBt,doneBt);
         scene = new Scene(grid,640,380);
-        AddTaskButton.setOnAction(event -> {
+        
+        addBt.setOnAction(event -> {
             primaryWindow.setScene(createTask.scene);
         });
+        
         createTask.CancelButton.setOnAction(event -> {
             primaryWindow.setScene(scene);
             createTask.TaskName.setText("");
@@ -278,7 +282,102 @@ public class TableScene extends VBox {
             createTask.DescriptionTextArea.setText("");
 
         });
-        DeleteTaskButton .setOnAction(event -> {
+        
+        //edit Button functionality
+        
+         editBt .setOnAction(event -> {
+             
+                //Convert ObservableList to the task object again to save changes.     
+                       //            try {
+                   
+             
+               Task[] selectedTask = tableView.getSelectionModel().getSelectedItems().toArray(new Task[0]);
+               createTask.TaskName.setText(selectedTask[0].getTaskName().get());
+                              createTask.MemberId.setText(selectedTask[0].member_idProperty().get()); 
+                                             createTask.DescriptionTextArea.setText(selectedTask[0].descriptionProperty().get()); 
+                                             createTask.Deadline.setValue(LocalDate.parse(selectedTask[0].deadlineProperty().get()));
+
+               /*  we changed it's name to make it behave in different way in the createing page */
+               
+                createTask.AddButton.setText("Save Changes");
+                
+                /*this code is for have the old info of the task before editing it 
+                and to check for it in th creating task window to not to write 
+                it again into the file
+                */
+                
+                oldTask.getTaskName().setValue(createTask.TaskName.getText());
+                oldTask.member_idProperty().setValue(createTask.MemberId.getText());
+                oldTask.deadlineProperty().setValue(createTask.Deadline.getValue().toString());
+                oldTask.descriptionProperty().setValue(createTask.DescriptionTextArea.getText());
+                
+               // System.out.println("oldTask name : " + oldTask.getTaskName().get());
+              primaryWindow.setScene(createTask.scene);
+              
+                    
+             
+                     
+                     
+                     
+         
+                                                                                                                 
+                                                                                                                   
+                                                                                                                   
+                                                                                                                   
+                                                                                                                   
+                                                                                                                   
+        });
+        
+        //done Button functionality
+        doneBt .setOnAction(event -> {
+          
+                       //Convert ObservableList to the task object again to save changes.     
+                       //            try {
+                   
+                    //list that contains done tasks only
+                    Task[] doneList = tableView.getSelectionModel().getSelectedItems().toArray(new Task[0]);
+                    
+                      tableView.getItems().removeAll(tableView.getSelectionModel().getSelectedItems());
+                      // to get the on going list
+                       Task[] leftedList =   tableView.getItems().toArray(new Task[0]) ;  
+                    //this to ensure  that first time we remove all the content from the file then we append to it 
+                    //we don't want to remove the content every time ! 
+                     boolean append = false;
+                    
+                    
+                     
+                     
+                     for(Task oneTask : leftedList)
+                     {
+                         UpdateStatus(oneTask, append, oneTask.getStatus().get());
+                         append = true;    
+                     }
+                     
+                   
+                   
+                     for(Task oneTask : doneList)                                                                                                                    
+                     {   
+                         UpdateStatus(oneTask, true,"Done");                                                                                                           
+                       
+                                                                                                                
+                     }
+                     
+                     
+                     
+            try {
+                Readtable();
+            } catch (IOException ex) {
+                Logger.getLogger(TableScene.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                                                                                                                 
+                                                                                                                   
+                                                                                                                   
+                                                                                                                   
+                                                                                                                   
+                                                                                                                   
+        });
+        
+        deleteBt .setOnAction(event -> {
             tableView.getItems().removeAll(tableView.getSelectionModel().getSelectedItems());
                        //Convert ObservableList to the task object again to save changes.     
                        //            try {
@@ -321,12 +420,7 @@ public class TableScene extends VBox {
         Task_Description_Column.setCellValueFactory(data -> data.getValue().descriptionProperty());
     }
     public void  Readtable () throws IOException {
-//        Collection<Task> list = Files.read(new File("C:/Users/ahmed/OneDrive/Desktop/table.txt").toPath())
-//                .stream()
-//                .map(line -> {
-//
-
-        Scanner scanner = new Scanner(Paths.get("C:/Users/Ahmed/Desktop/table.txt"), StandardCharsets.UTF_8.name());
+        Scanner scanner = new Scanner(Paths.get("table.txt"), StandardCharsets.UTF_8.name());
         int counter=0;
 
         Task task[]  = new Task[100] ;
@@ -355,10 +449,30 @@ public class TableScene extends VBox {
 
     }
 
+     public void UpdateStatus(Task task,boolean append,String status)
+    {
+        try {
+                FileWriter myWriter = new FileWriter("table.txt",append);
+                myWriter.write(task.taskNameProperty().get());
+                myWriter.write(',');
+                myWriter.write(task.member_idProperty().get());
+                myWriter.write(',');
+                myWriter.write(status);
+                myWriter.write(',');
+                myWriter.write(String.valueOf(task.deadlineProperty().getValue()));
+                myWriter.write(',');
+                myWriter.write(task.descriptionProperty().get());
+                myWriter.write(";");
+                myWriter.flush();
+                myWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
     public void UpdateAferDeletion(Task task,boolean append)
     {
         try {
-                FileWriter myWriter = new FileWriter("C:/Users/Ahmed/Desktop/table.txt",append);
+                FileWriter myWriter = new FileWriter("table.txt",append);
                 myWriter.write(task.taskNameProperty().get());
                 myWriter.write(',');
                 myWriter.write(task.member_idProperty().get());

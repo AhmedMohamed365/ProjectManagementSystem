@@ -7,6 +7,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
+import java.util.Scanner;
+
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -16,13 +20,13 @@ public class LoginController {
     public TextField userField;
     public PasswordField passwordField;
     public Label errorLabel;
-    
+    TeamMember member [] = new TeamMember[5];
     Account signUp;
     
     //Reference to the main window and scene to change it.
     Stage mainWindow;
     Scene TasksScene;
-    
+
     @FXML
     private HBox loginRoot;
 
@@ -46,18 +50,21 @@ public class LoginController {
         //Validate input
         if(validateNull(userField) && validateNull(passwordField)) {
             errorLabel.setText("Please fill in name and password");
-        } else if(validateNull(userField)) {
+        }
+        else if(validateNull(userField)) {
             errorLabel.setText("Please fill in name");
         } else if(validateNull(passwordField)) {
             errorLabel.setText("Please fill in password");
         } else {
-            //Add code to check if user exists in database/file/array and if they are team leader
+            LoadUsers();
+            ValidateData();
+
 
             errorLabel.setText("");
             System.out.println("User allowed to login\n");
             //loadAfterLoginFXML();
             // if the login is successful
-            goToTaskTable();
+            //goToTaskTable();
         }
     }
     
@@ -81,6 +88,49 @@ public void goToSignUp()
        mainWindow.setScene(signUp.scene);
         
 
+}
+
+
+public void LoadUsers() throws IOException {
+    Scanner scanner = new Scanner(Paths.get("accounts.txt"), StandardCharsets.UTF_8.name());
+    int counter = 0;
+
+    while(scanner.hasNext())
+    {
+        String content = scanner.useDelimiter("\\;").next();
+        String[] details = content.split(",");
+        member[counter] = new TeamMember();
+        member[counter].setName(details[0]+details[1]);
+        member[counter].setEmail(details[2]);
+        member[counter].setPassword(details[3]);
+        member[counter].setMobileNumber(details[4]);
+        member[counter].setGender(details[5]);
+
+        counter++;
+    }
+    scanner.close();
+
+}
+public void ValidateData()
+{
+    for ( TeamMember  user : member)
+    {
+        //We don't wanna get null pointer exception for not defined user :(
+        if(user == null)
+            break;
+        if(userField.getText().equals(user.getEmail()))
+        {
+            if (passwordField.getText().equals(user.getPassword()))
+            {
+                goToTaskTable();
+            }
+            else
+            {
+                passwordField.setText("");
+                errorLabel.setText("Invalid password");
+            }
+        }
+    }
 }
     //Functions to switch to other FXML files
     /*

@@ -9,10 +9,14 @@ import javafx.stage.Stage;
 public class Task extends Stage {
 
 private StringProperty taskName = new SimpleStringProperty();
+
     private StringProperty member_id= new SimpleStringProperty();
+    
 private StringProperty description=new SimpleStringProperty();
+
 private StringProperty deadline=new SimpleStringProperty();
 
+private StringProperty status=new SimpleStringProperty();
     public void setMember_id(String member_id) {
         this.member_id.set(member_id);
     }
@@ -25,7 +29,7 @@ private StringProperty deadline=new SimpleStringProperty();
         this.status.set(status);
     }
 
-    private StringProperty status=new SimpleStringProperty();
+    
 
     public StringProperty member_idProperty() {
         return member_id;
@@ -64,6 +68,11 @@ private StringProperty deadline=new SimpleStringProperty();
         return taskName;
     }
 
+    public StringProperty getStatus() {
+        return status;
+    }
+
+    
     public void setTaskName(StringProperty taskName) {
         this.taskName = taskName;
     }

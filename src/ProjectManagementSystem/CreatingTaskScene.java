@@ -10,27 +10,22 @@ import javafx.scene.input.DataFormat;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.*;
 import javafx.scene.shape.*;
-import javafx.scene.effect.*;
+
 import javafx.scene.*;
-import javafx.geometry.*;
+
 import javafx.scene.text.*;
 import javafx.scene.control.*;
 
-import java.lang.*;
-import static java.sql.Date.valueOf;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Date;
-import javafx.collections.ObservableList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 
 import javafx.scene.layout.*;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.layout.BorderPane;
+
 import javafx.stage.Stage;
-import static java.sql.Date.valueOf;
-import static java.sql.Date.valueOf;
-import static java.sql.Date.valueOf;
+
 
 class CreatingTaskScene extends Pane
 {
@@ -121,8 +116,39 @@ class CreatingTaskScene extends Pane
         AddButton.setFont(new Font("Elephant", 15.0));
         AddButton.setOnAction(event ->
         {
+            //here got excuted when it's edit page not add page
+            if(AddButton.getText().equals("Save Changes"))
+            {
+               
+                saveEditedTask();
+              Task [] allTasks =  tasksTable.tableView.getItems().toArray(new Task[0]);
+              boolean append = false;
+              // delete all tasks from file then write it again after editing one task at a time
+              for(Task oneTask : allTasks)
+              {
+                  //this to not to write the old task to the file
+                  if(tasksTable.oldTask.getTaskName().get().equals(oneTask.getTaskName().get())
+                          && tasksTable.oldTask.member_idProperty().get().equals(oneTask.member_idProperty().get())
+                          && tasksTable.oldTask.descriptionProperty().get().equals(oneTask.descriptionProperty().get())
+                          && tasksTable.oldTask.deadlineProperty().get().equals(oneTask.deadlineProperty().get()))
+                      continue;
+                  
+                  saveTaskAferEdit(oneTask, true);
+                 
+              }
+              
+              //let's read the table again to update the  table list for the user
+                try {
+                    tasksTable.Readtable();
+                } catch (IOException ex) {
+                    Logger.getLogger(CreatingTaskScene.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        else
+        {
             try {
-                FileWriter myWriter = new FileWriter("C:/Users/Ahmed/Desktop/table.txt",true);
+                FileWriter myWriter = new FileWriter("table.txt",true);
                 myWriter.write(TaskName.getText());
                 myWriter.write(',');
                 myWriter.write(MemberId.getText());
@@ -138,12 +164,16 @@ class CreatingTaskScene extends Pane
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            primaryWindow.setScene(tasksTable.scene);
-            TaskName.setText("");
-            MemberId.setText("");
-            Deadline.setValue(LocalDate.now());
-            DescriptionTextArea.setText("");
-            //This to update the table after pressing add button
+           
+            
+            
+            
+           
+          
+           
+        }
+            
+              //This to update the table after pressing add button , or save button
            try{
                          tasksTable.Readtable();
   
@@ -152,6 +182,11 @@ class CreatingTaskScene extends Pane
            {
                e.printStackTrace();
            }
+             primaryWindow.setScene(tasksTable.scene);
+            TaskName.setText("");
+            MemberId.setText("");
+            Deadline.setValue(LocalDate.now());
+            DescriptionTextArea.setText("");
         });
         AddButton.setOnKeyPressed(event ->
                 {
@@ -192,6 +227,52 @@ class CreatingTaskScene extends Pane
         grid.getChildren().addAll(TaskName,MemberId,DescriptionTextArea,AddButton,CancelButton,Deadline);
         scene = new Scene(grid,230,400);
 
-
     }
+    
+     //function to  tasks before the edited task
+      public void saveTaskAferEdit(Task task,boolean append)
+        {
+             try {
+                FileWriter myWriter = new FileWriter("table.txt",append);
+                myWriter.write(task.taskNameProperty().get());
+                myWriter.write(',');
+                myWriter.write(task.member_idProperty().get());
+                myWriter.write(',');
+                myWriter.write("going on");
+                myWriter.write(',');
+                myWriter.write(String.valueOf(task.deadlineProperty().getValue()));
+                myWriter.write(',');
+                myWriter.write(task.descriptionProperty().get());
+                myWriter.write(";");
+                myWriter.flush();
+                myWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        /* This function takes data from the creation window not from task object
+        like previous functions
+
+        */
+        public void saveEditedTask()
+        {
+             try {
+                FileWriter myWriter = new FileWriter("table.txt",false);
+                myWriter.write(TaskName.getText());
+                myWriter.write(',');
+                myWriter.write(MemberId.getText());
+                myWriter.write(',');
+                myWriter.write("going on");
+                myWriter.write(',');
+                myWriter.write(String.valueOf(Deadline.getValue().toString()));
+                myWriter.write(',');
+                myWriter.write(DescriptionTextArea.getText());
+                myWriter.write(";");
+                myWriter.flush();
+                myWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+      
 }
